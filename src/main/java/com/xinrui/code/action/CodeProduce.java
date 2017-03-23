@@ -21,8 +21,8 @@ public class CodeProduce {
 	public BaseResultModel getcode(String url, HttpServletRequest request) throws Exception {
 		CheckUtil.isValidUrl(url);
 		BaseResultModel baseResultModel = new BaseResultModel();
-		String srcPath = request.getSession().getServletContext().getRealPath("images");
-		String trainPath = srcPath + "\\train\\";
+		String srcPath = request.getSession().getServletContext().getRealPath("images")+"\\";
+		String trainPath = srcPath + "train\\";
 		String code = imgPreProcessService.getAllOcr(imgPreProcessService.downloadImage(url, "code.png", srcPath), trainPath);
 		baseResultModel.setValue(code);
 		return baseResultModel;
