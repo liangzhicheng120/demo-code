@@ -41,7 +41,7 @@ public class CheckUtil {
 
 	public static void isValidUnPushRegister(String sign, String serverSign) {
 		if (!sign.equals(serverSign)) {
-			throw new CalException(CodeConstants.PARAMETERS_CHECK_ERROR, "客户端sign[" + sign + "[不合法");
+			throw new CalException(CodeConstants.PARAMETERS_CHECK_ERROR, "客户端sign[" + sign + "]不合法");
 		}
 
 	}

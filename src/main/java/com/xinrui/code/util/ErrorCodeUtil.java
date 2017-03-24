@@ -50,7 +50,6 @@ public class ErrorCodeUtil {
 	public static void main(String[] args) {
 		System.out.println(ErrorCodeUtil.getMessage("server.unknow"));
 		System.out.println(ErrorCodeUtil.getMessageByCode(CodeConstants.SERVER_UNKNOW));
-
 	}
 
 }
