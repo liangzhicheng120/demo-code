@@ -110,6 +110,9 @@ public class ImgPreProcessServiceImpl implements ImgPreProcessService {
 		if (trainMap == null) {
 			Map<BufferedImage, String> map = new HashMap<BufferedImage, String>();
 			File dir = new File(Constants.TRAINPATH);
+			if(!dir.exists()){
+				throw new CalException(CodeConstants.FILE_PATH_NOT_EXIST, "文件加载路径不存在：" + "[" + Constants.TRAINPATH + "]");
+			}
 			File[] files = dir.listFiles();
 			for (File file : files) {
 				try {

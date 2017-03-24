@@ -59,4 +59,7 @@ public class CodeConstants implements BaseCode {
 
 	// 加载文件异常
 	public final static int FILE_LOAD_ERROR = SERVER_ERROR + THIRD + 4;
+
+	// 加载文件路径不存在
+	public final static int FILE_PATH_NOT_EXIST = SERVER_ERROR + THIRD + 5;
 }
