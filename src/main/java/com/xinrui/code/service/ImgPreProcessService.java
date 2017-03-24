@@ -6,7 +6,7 @@ import java.util.Map;
 
 public interface ImgPreProcessService {
 
-	public String downloadImage(String url, String imgName,String path);
+	public String downloadImage(String url, String imgName);
 
 	public int isBlue(int colorInt);
 
@@ -16,10 +16,10 @@ public interface ImgPreProcessService {
 
 	public List<BufferedImage> splitImage(BufferedImage img) throws Exception;
 
-	public Map<BufferedImage, String> loadTrainData(String path);
+	public Map<BufferedImage, String> loadTrainData();
 
 	public String getSingleCharOcr(BufferedImage img, Map<BufferedImage, String> map);
 
-	public String getAllOcr(String file,String path) throws Exception;
+	public String getAllOcr(String file) throws Exception;
 
 }

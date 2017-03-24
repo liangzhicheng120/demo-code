@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
+
 
 public class ErrorCodeUtil {
 
@@ -16,8 +16,7 @@ public class ErrorCodeUtil {
 
 	private static Properties properties = new Properties();
 
-	private static Logger logger = LoggerFactory.getLogger(ErrorCodeUtil.class);
-	
+	private static final Logger logger = Logger.getLogger(ErrorCodeUtil.class);
 	static {
 		Object o = new CodeConstants();
 		java.lang.reflect.Field[] fs = o.getClass().getFields();
@@ -30,13 +29,13 @@ public class ErrorCodeUtil {
 				}
 			}
 		} catch (Exception e) {
-			logger.error("’‚∏ˆµÿ∑Ωª·¥Ì???", e);
+			logger.error("Ëøô‰∏™Âú∞Êñπ‰ºöÈîô???", e);
 		}
 		InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream(RESOURCESE_NAME);
 		try {
 			properties.load(in);
 		} catch (IOException e) {
-			logger.error("º”‘ÿ" + RESOURCESE_NAME + "¥ÌŒÛ£°", e);
+			logger.error("Âä†ËΩΩ" + RESOURCESE_NAME + "ÈîôËØØÔºÅ", e);
 		}
 	}
 
@@ -51,7 +50,6 @@ public class ErrorCodeUtil {
 	public static void main(String[] args) {
 		System.out.println(ErrorCodeUtil.getMessage("server.unknow"));
 		System.out.println(ErrorCodeUtil.getMessageByCode(CodeConstants.SERVER_UNKNOW));
-
 	}
 
 }
