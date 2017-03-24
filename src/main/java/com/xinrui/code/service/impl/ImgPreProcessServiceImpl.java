@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import com.xinrui.code.exception.CalException;
 import com.xinrui.code.service.ImgPreProcessService;
 import com.xinrui.code.util.CodeConstants;
+import com.xinrui.code.util.Constants;
 import com.xinrui.code.util.JwUtils;
 
 @Service
@@ -31,7 +32,7 @@ public class ImgPreProcessServiceImpl implements ImgPreProcessService {
 
 	private Map<BufferedImage, String> trainMap = null;
 
-	public String downloadImage(String url, String imgName, String path) {
+	public String downloadImage(String url, String imgName) {
 
 		CloseableHttpClient httpClient = JwUtils.getHttpClient();
 		HttpGet getMethod = new HttpGet(url);
@@ -42,14 +43,14 @@ public class ImgPreProcessServiceImpl implements ImgPreProcessService {
 			if ("HTTP/1.1 200 OK".equals(response.getStatusLine().toString())) {
 				HttpEntity entity = response.getEntity();
 				InputStream is = entity.getContent();
-				OutputStream os = new FileOutputStream(new File(path + imgName));
+				OutputStream os = new FileOutputStream(new File(Constants.SRCPATH + imgName));
 				int length = -1;
 				byte[] bytes = new byte[1024];
 				while ((length = is.read(bytes)) != -1) {
 					os.write(bytes, 0, length);
 				}
 				os.close();
-				return path + imgName;
+				return Constants.SRCPATH + imgName;
 			}
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
@@ -105,17 +106,17 @@ public class ImgPreProcessServiceImpl implements ImgPreProcessService {
 		return subImgs;
 	}
 
-	public Map<BufferedImage, String> loadTrainData(String path) {
+	public Map<BufferedImage, String> loadTrainData() {
 		if (trainMap == null) {
 			Map<BufferedImage, String> map = new HashMap<BufferedImage, String>();
-			File dir = new File(path);
+			File dir = new File(Constants.TRAINPATH);
 			File[] files = dir.listFiles();
 			for (File file : files) {
 				try {
 					map.put(ImageIO.read(file), file.getName().charAt(0) + "");
 				} catch (IOException e) {
 					e.printStackTrace();
-					throw new CalException(CodeConstants.FILE_LOAD_ERROR, "文件加载异常：" + "[" + path + "]");
+					throw new CalException(CodeConstants.FILE_LOAD_ERROR, "文件加载异常：" + "[" + Constants.TRAINPATH + "]");
 				}
 			}
 			trainMap = map;
@@ -151,10 +152,10 @@ public class ImgPreProcessServiceImpl implements ImgPreProcessService {
 		return result;
 	}
 
-	public String getAllOcr(String file, String path) throws Exception {
+	public String getAllOcr(String file) throws Exception {
 		BufferedImage img = removeBackgroud(file);
 		List<BufferedImage> listImg = splitImage(img);
-		Map<BufferedImage, String> map = loadTrainData(path);
+		Map<BufferedImage, String> map = loadTrainData();
 		String result = "";
 		for (BufferedImage bi : listImg) {
 			result += getSingleCharOcr(bi, map);

@@ -1,7 +1,5 @@
 package com.xinrui.code.action;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,12 +16,10 @@ public class CodeProduce {
 
 	@RequestMapping(value = "/getCode")
 	@ResponseBody
-	public BaseResultModel getcode(String url, HttpServletRequest request) throws Exception {
+	public BaseResultModel getcode(String url) throws Exception {
 		CheckUtil.isValidUrl(url);
 		BaseResultModel baseResultModel = new BaseResultModel();
-		String srcPath = request.getSession().getServletContext().getRealPath("images")+"\\";
-		String trainPath = srcPath + "train\\";
-		String code = imgPreProcessService.getAllOcr(imgPreProcessService.downloadImage(url, "code.png", srcPath), trainPath);
+		String code = imgPreProcessService.getAllOcr(imgPreProcessService.downloadImage(url, "code.png"));
 		baseResultModel.setValue(code);
 		return baseResultModel;
 	}
