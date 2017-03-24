@@ -18,20 +18,18 @@ public class CheckUtil {
 		Matcher matcher = patt.matcher(url);
 		boolean isMatch = matcher.matches();
 		if (!isMatch) {
-			throw new CalException(CodeConstants.PARAMETERS_CHECK_ERROR,
-					"URLµØÖ·:[" + url + "]²»ºÏ·¨");
+			throw new CalException(CodeConstants.PARAMETERS_CHECK_ERROR, "URLåœ°å€:[" + url + "]ä¸åˆæ³•");
 		}
 
 	}
 
 	public static void isValiLength(String str, int length) {
 		if (StringUtils.isBlank(str)) {
-			throw new CalException(CodeConstants.PARAMETERS_CHECK_ERROR,
-					"²ÎÊı²»ÄÜÎª¿Õ");
+			throw new CalException(CodeConstants.PARAMETERS_CHECK_ERROR, "å‚æ•°ä¸èƒ½ä¸ºç©º");
+
 		}
 		if (str.trim().length() > length) {
-			throw new CalException(CodeConstants.PARAMETERS_CHECK_ERROR,
-					"²ÎÊı³¤¶È²»ÄÜ³¬¹ı[" + length + "]¸ö×Ö·û");
+			throw new CalException(CodeConstants.PARAMETERS_CHECK_ERROR, "å‚æ•°é•¿åº¦ä¸èƒ½è¶…è¿‡[" + length + "]ä¸ªå­—ç¬¦");
 		}
 	}
 
@@ -43,22 +41,27 @@ public class CheckUtil {
 
 	public static void isValidUnPushRegister(String sign, String serverSign) {
 		if (!sign.equals(serverSign)) {
-			throw new CalException(CodeConstants.PARAMETERS_CHECK_ERROR,
-					"¿Í»§¶Ësign[" + sign + "[²»ºÏ·¨");
+			throw new CalException(CodeConstants.PARAMETERS_CHECK_ERROR, "å®¢æˆ·ç«¯sign[" + sign + "[ä¸åˆæ³•");
 		}
 
 	}
 
-	public static void checkLeZero(Integer num, Object... args) {
-		if (num == null || num <= 0) {
+	public static void checkLLeZero(Long target, Object... args) {
+		if (target == null || target <= 0) {
 			throw new CalException(CodeConstants.PARAMETERS_CHECK_ERROR, args);
 		}
 	}
-	
-	public static void checkObjIsEqual(Object obj1,Object obj2,Object... args) {
-		if (obj1 != obj2) {
+
+	public static void checkILeZero(Integer target, Object... args) {
+		if (target == null || target <= 0) {
 			throw new CalException(CodeConstants.PARAMETERS_CHECK_ERROR, args);
 		}
 	}
-	
+
+	public static void checkFLeZero(Float target, Object... args) {
+		if (target == null || target <= 0) {
+			throw new CalException(CodeConstants.PARAMETERS_CHECK_ERROR, args);
+		}
+	}
+
 }

@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
+
 
 public class ErrorCodeUtil {
 
@@ -16,8 +16,7 @@ public class ErrorCodeUtil {
 
 	private static Properties properties = new Properties();
 
-	private static Logger logger = LoggerFactory.getLogger(ErrorCodeUtil.class);
-	
+	private static final Logger logger = Logger.getLogger(ErrorCodeUtil.class);
 	static {
 		Object o = new CodeConstants();
 		java.lang.reflect.Field[] fs = o.getClass().getFields();
@@ -30,13 +29,13 @@ public class ErrorCodeUtil {
 				}
 			}
 		} catch (Exception e) {
-			logger.error("Õâ¸öµØ·½»á´í???", e);
+			logger.error("è¿™ä¸ªåœ°æ–¹ä¼šé”™???", e);
 		}
 		InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream(RESOURCESE_NAME);
 		try {
 			properties.load(in);
 		} catch (IOException e) {
-			logger.error("¼ÓÔØ" + RESOURCESE_NAME + "´íÎó£¡", e);
+			logger.error("åŠ è½½" + RESOURCESE_NAME + "é”™è¯¯ï¼", e);
 		}
 	}
 
