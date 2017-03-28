@@ -177,7 +177,7 @@
     				<version>2.6</version>  
     				<configuration>  
         				<encoding>UTF-8</encoding> 
-    					</configuration>  
+    				</configuration>  
 			</plugin>  
 		</plugins>
 	</build>
