@@ -19,7 +19,7 @@ public class CodeProduce {
 	public BaseResultModel getcode(String url) throws Exception {
 		CheckUtil.isValidUrl(url);
 		BaseResultModel baseResultModel = new BaseResultModel();
-		String code = imgPreProcessService.getAllOcr(imgPreProcessService.downloadImage(url, "code.png"));
+		String code = imgPreProcessService.getAllOcr(imgPreProcessService.downloadImage(url));
 		baseResultModel.setValue(code);
 		return baseResultModel;
 	}

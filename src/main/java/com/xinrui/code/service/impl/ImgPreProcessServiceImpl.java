@@ -16,49 +16,40 @@ import javax.imageio.ImageIO;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.springframework.stereotype.Service;
 
-import com.xinrui.code.exception.CalException;
 import com.xinrui.code.service.ImgPreProcessService;
-import com.xinrui.code.util.CodeConstants;
 import com.xinrui.code.util.Constants;
 import com.xinrui.code.util.JwUtils;
+import com.xinrui.code.util.ModelConfig;
 
 @Service
 public class ImgPreProcessServiceImpl implements ImgPreProcessService {
 
 	private Map<BufferedImage, String> trainMap = null;
 
-	public String downloadImage(String url, String imgName) {
+	public String downloadImage(String url) throws Exception {
 
 		CloseableHttpClient httpClient = JwUtils.getHttpClient();
 		HttpGet getMethod = new HttpGet(url);
 		getMethod.setHeader("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.6) Gecko/20100625Firefox/3.6.6 Greatwqs");
 		HttpResponse response = null;
-		try {
-			response = httpClient.execute(getMethod);
-			if ("HTTP/1.1 200 OK".equals(response.getStatusLine().toString())) {
-				HttpEntity entity = response.getEntity();
-				InputStream is = entity.getContent();
-				OutputStream os = new FileOutputStream(new File(Constants.SRCPATH + imgName));
-				int length = -1;
-				byte[] bytes = new byte[1024];
-				while ((length = is.read(bytes)) != -1) {
-					os.write(bytes, 0, length);
-				}
-				os.close();
-				return Constants.SRCPATH + imgName;
+		response = httpClient.execute(getMethod);
+		if ("HTTP/1.1 200 OK".equals(response.getStatusLine().toString())) {
+			HttpEntity entity = response.getEntity();
+			InputStream is = entity.getContent();
+			OutputStream os = new FileOutputStream(new File(ModelConfig.IMAGES_SOURCE_FILE_PATH + Constants.IMAGESNAME));
+			int length = -1;
+			byte[] bytes = new byte[1024];
+			while ((length = is.read(bytes)) != -1) {
+				os.write(bytes, 0, length);
 			}
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-			throw new CalException(CodeConstants.HTTP_REQUEST_ERROR, "http请求异常");
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new CalException(CodeConstants.SAVE_FILE_ERROR, "生成文件错误!");
+			os.close();
+			return ModelConfig.IMAGES_SOURCE_FILE_PATH + Constants.IMAGESNAME;
 		}
+
 		return null;
 	}
 
@@ -106,21 +97,13 @@ public class ImgPreProcessServiceImpl implements ImgPreProcessService {
 		return subImgs;
 	}
 
-	public Map<BufferedImage, String> loadTrainData() {
+	public Map<BufferedImage, String> loadTrainData() throws IOException {
 		if (trainMap == null) {
 			Map<BufferedImage, String> map = new HashMap<BufferedImage, String>();
-			File dir = new File(Constants.TRAINPATH);
-			if(!dir.exists()){
-				throw new CalException(CodeConstants.FILE_PATH_NOT_EXIST, "文件加载路径不存在：" + "[" + Constants.TRAINPATH + "]");
-			}
+			File dir = new File(ModelConfig.IMAGES_MODEL_FILE_PATH);
 			File[] files = dir.listFiles();
 			for (File file : files) {
-				try {
-					map.put(ImageIO.read(file), file.getName().charAt(0) + "");
-				} catch (IOException e) {
-					e.printStackTrace();
-					throw new CalException(CodeConstants.FILE_LOAD_ERROR, "文件加载异常：" + "[" + Constants.TRAINPATH + "]");
-				}
+				map.put(ImageIO.read(file), file.getName().charAt(0) + "");
 			}
 			trainMap = map;
 		}

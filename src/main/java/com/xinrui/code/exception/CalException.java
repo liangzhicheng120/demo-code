@@ -1,10 +1,7 @@
-/**
- * 
- */
 package com.xinrui.code.exception;
 
 import com.xinrui.code.util.CodeConstants;
-import com.xinrui.code.util.ErrorCodeUtil;
+import com.xinrui.code.util.CodeUtil;
 
 public class CalException extends RuntimeException {
 
@@ -12,11 +9,11 @@ public class CalException extends RuntimeException {
 
 	private boolean pringStackTrace = false;
 
-	/** Òì³£´íÎóÂë */
+	/** å¼‚å¸¸é”™è¯¯ç  */
 	private int errorCode;
 
 	/**
-	 * ´íÎóĞÅÏ¢
+	 * é”™è¯¯ä¿¡æ¯
 	 */
 	private String errorMessage;
 
@@ -31,14 +28,13 @@ public class CalException extends RuntimeException {
 	public CalException() {
 		super();
 		this.errorCode = CodeConstants.SERVER_UNKNOW;
-		this.errorMessage = ErrorCodeUtil
-				.getMessageByCode(CodeConstants.SERVER_UNKNOW);
+		this.errorMessage = CodeUtil.getMessageByCode(CodeConstants.SERVER_UNKNOW);
 	}
 
 	public CalException(int code, Throwable cause) {
 		super(cause);
 		this.errorCode = code;
-		this.errorMessage = ErrorCodeUtil.getMessageByCode(code);
+		this.errorMessage = CodeUtil.getMessageByCode(code);
 		this.pringStackTrace = true;
 	}
 
@@ -49,19 +45,18 @@ public class CalException extends RuntimeException {
 
 	public CalException(int code) {
 		this.errorCode = code;
-		this.errorMessage = ErrorCodeUtil.getMessageByCode(code);
+		this.errorMessage = CodeUtil.getMessageByCode(code);
 	}
 
 	/**
-	 * Ö§³Ö´«Èë²ÎÊı£¬Ìæ»»´íÎóĞÅÏ¢ÖĞµÄÕ¼Î»·û
+	 * æ”¯æŒä¼ å…¥å‚æ•°ï¼Œæ›¿æ¢é”™è¯¯ä¿¡æ¯ä¸­çš„å ä½ç¬¦
 	 * 
 	 * @param code
 	 * @param args
 	 */
 	public CalException(int code, Object... args) {
 		this.errorCode = code;
-		this.errorMessage = String.format(ErrorCodeUtil.getMessageByCode(code),
-				args);
+		this.errorMessage = String.format(CodeUtil.getMessageByCode(code), args);
 	}
 
 	public boolean isPringStackTrace() {
